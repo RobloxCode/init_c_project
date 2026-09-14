@@ -1,9 +1,19 @@
 use std::env;
 
-fn main() {
+fn main() -> Result<(), String> {
     let args: Vec<_> = env::args().collect();
 
-    for (i, a) in args.iter().enumerate() {
-        println!("i: {}, arg: {}", i, a);
+    if args.len() < 2 {
+        eprintln!("missing project name");
+        eprintln!("Ussage:");
+        eprintln!("     ./{} <project name> [directories...]", args[0]);
+        eprintln!();
+        eprintln!("Example:");
+        eprintln!("     ./{} <my_project> utils helpers", args[0]);
+        eprintln!();
+
+        return Err("missing required arguments".to_string());
     }
+
+    Ok(())
 }
