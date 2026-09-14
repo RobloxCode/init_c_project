@@ -1,6 +1,6 @@
-use std::env;
+use std::{env, fs};
 
-fn main() -> Result<(), String> {
+fn main() -> std::io::Result<()> {
     let args: Vec<_> = env::args().collect();
 
     if args.len() < 3 {
@@ -12,18 +12,21 @@ fn main() -> Result<(), String> {
         eprintln!("     cargo run -- ../../example_file my_project utils helpers");
         eprintln!();
 
-        return Err("missing required arguments".to_string());
+        // TODO: create a error type
+        // return Err("missing required arguments");
     }
 
     let project_path = args[1].to_string();
     let project_name = args[2].to_string();
     let directories = &args[3..];
 
-    if directories.is_empty() {
-        println!("no specified directories");
-    } else {
-        println!("{:?}", directories);
-    }
+    let mut final_path = String::new();
+    final_path.push_str(&project_path);
+    final_path.push_str(&project_name);
+
+    // TODO: create the directories and the src, build and include directories
+
+    fs::create_dir(final_path)?;
 
     Ok(())
 }
