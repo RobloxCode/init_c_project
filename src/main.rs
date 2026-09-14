@@ -6,10 +6,13 @@ fn main() -> Result<(), String> {
     if args.len() < 2 {
         eprintln!("missing project name");
         eprintln!("Ussage:");
-        eprintln!("     ./{} <project name> [directories...]", args[0]);
+        eprintln!(
+            "     ./{} <destination (path)> <project name> [directories...]",
+            args[0]
+        );
         eprintln!();
         eprintln!("Example:");
-        eprintln!("     ./{} <my_project> utils helpers", args[0]);
+        eprintln!("     ./you_program ../../example_file my_project utils helpers");
         eprintln!();
 
         return Err("missing required arguments".to_string());
