@@ -12,8 +12,10 @@ fn main() -> std::io::Result<()> {
         eprintln!("     cargo run -- ../../example_file my_project utils helpers");
         eprintln!();
 
-        // TODO: create a error type
-        // return Err("missing required arguments");
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "missing required arguments",
+        ));
     }
 
     let project_path = args[1].to_string();
