@@ -1,3 +1,4 @@
+use std::fs::File;
 use std::path::PathBuf;
 use std::{env, fs};
 
@@ -54,6 +55,19 @@ fn main() -> std::io::Result<()> {
             .join(directory);
 
         fs::create_dir_all(directory_path)?;
+    }
+
+    for directory in directories {
+        let mut name = String::from(directory);
+        name.push_str(".h");
+
+        let directory_path = final_path
+            .join("include")
+            .join(project_name)
+            .join(directory)
+            .join(name);
+
+        File::create(directory_path)?;
     }
 
     Ok(())
