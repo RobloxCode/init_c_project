@@ -4,6 +4,7 @@ use std::{env, fs};
 enum CInitializerError {
     InvalidArguments,
     Io(std::io::Error),
+    FileAlreadyExists,
 }
 
 fn main() -> std::io::Result<()> {
@@ -38,9 +39,15 @@ fn main() -> std::io::Result<()> {
     create_dir_given_path(&final_path, "/build")?;
     create_dir_given_path(&final_path, "/include")?;
 
-    // for dir in directories {
-    //     fs::create_dir(final_path);
-    // }
+    for dir in directories {
+        let mut new_path = String::new();
+        new_path.push_str(&final_path);
+        new_path.push_str("/include/");
+        new_path.push_str(&project_name);
+        new_path.push_str("/");
+        new_path.push_str(&dir);
+        create_dir_given_path(&final_path, &new_path)?;
+    }
 
     Ok(())
 }
