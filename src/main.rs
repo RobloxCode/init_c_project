@@ -32,18 +32,24 @@ fn main() -> std::io::Result<()> {
     final_path.push_str(&project_path);
     final_path.push_str(&project_name);
 
-    // TODO: create the directories and the src, build and include directories
-
     fs::create_dir(&final_path)?;
 
-    let mut src_path = String::new();
-    src_path.push_str(&final_path);
-    src_path.push_str("/src");
-    fs::create_dir(src_path)?;
+    create_dir_given_path(&final_path, "/src")?;
+    create_dir_given_path(&final_path, "/build")?;
+    create_dir_given_path(&final_path, "/include")?;
 
     // for dir in directories {
     //     fs::create_dir(final_path);
     // }
+
+    Ok(())
+}
+
+fn create_dir_given_path(path: &str, dir: &str) -> std::io::Result<()> {
+    let mut new_path = String::new();
+    new_path.push_str(path);
+    new_path.push_str(dir);
+    fs::create_dir(new_path)?;
 
     Ok(())
 }
