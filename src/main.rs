@@ -50,6 +50,8 @@ fn main() -> std::io::Result<()> {
 
     create_include_dir(directories, &final_path, project_name)?;
 
+    create_src_dir(directories, &final_path)?;
+
     Ok(())
 }
 
@@ -76,6 +78,25 @@ fn create_include_dir(
             .join(project_name)
             .join(directory)
             .join(name);
+
+        File::create(directory_path)?;
+    }
+
+    Ok(())
+}
+
+fn create_src_dir(directories: &[String], final_path: &PathBuf) -> std::io::Result<()> {
+    for directory in directories {
+        let directory_path = final_path.join("src").join(directory);
+
+        fs::create_dir_all(directory_path)?;
+    }
+
+    for directory in directories {
+        let mut name = String::from(directory);
+        name.push_str(".c");
+
+        let directory_path = final_path.join("src").join(directory).join(name);
 
         File::create(directory_path)?;
     }
