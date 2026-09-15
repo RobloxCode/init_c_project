@@ -48,6 +48,16 @@ fn main() -> std::io::Result<()> {
     fs::create_dir(final_path.join("build"))?;
     fs::create_dir(final_path.join("include"))?;
 
+    create_include_dir(directories, &final_path, project_name)?;
+
+    Ok(())
+}
+
+fn create_include_dir(
+    directories: &[String],
+    final_path: &PathBuf,
+    project_name: &str,
+) -> std::io::Result<()> {
     for directory in directories {
         let directory_path = final_path
             .join("include")
