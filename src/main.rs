@@ -32,6 +32,15 @@ fn main() -> std::io::Result<()> {
 
     let final_path = project_path.join(project_name);
 
+    if final_path.is_dir() {
+        eprintln!("directory already exists");
+
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "directory already exists",
+        ));
+    }
+
     fs::create_dir(&final_path)?;
 
     fs::create_dir(final_path.join("src"))?;
