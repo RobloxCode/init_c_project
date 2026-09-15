@@ -1,3 +1,4 @@
+use std::path::PathBuf;
 use std::{env, fs};
 
 #[warn(unused)]
@@ -25,38 +26,26 @@ fn main() -> std::io::Result<()> {
         ));
     }
 
-    let project_path = args[1].to_string();
-    let project_name = args[2].to_string();
+    let project_path = PathBuf::from(&args[1]);
+    let project_name = &args[2];
     let directories = &args[3..];
 
-    let mut final_path = String::new();
-    final_path.push_str(&project_path);
-    final_path.push_str(&project_name);
+    let final_path = project_path.join(project_name);
 
     fs::create_dir(&final_path)?;
 
-    create_dir_given_path(&final_path, "/src")?;
-    create_dir_given_path(&final_path, "/build")?;
-    create_dir_given_path(&final_path, "/include")?;
+    fs::create_dir(final_path.join("src"))?;
+    fs::create_dir(final_path.join("build"))?;
+    fs::create_dir(final_path.join("include"))?;
 
-    for dir in directories {
-        let mut new_path = String::new();
-        new_path.push_str(&final_path);
-        new_path.push_str("/include/");
-        new_path.push_str(&project_name);
-        new_path.push_str("/");
-        new_path.push_str(&dir);
-        create_dir_given_path(&final_path, &new_path)?;
+    for directory in directories {
+        let directory_path = final_path
+            .join("include")
+            .join(project_name)
+            .join(directory);
+
+        fs::create_dir_all(directory_path)?;
     }
-
-    Ok(())
-}
-
-fn create_dir_given_path(path: &str, dir: &str) -> std::io::Result<()> {
-    let mut new_path = String::new();
-    new_path.push_str(path);
-    new_path.push_str(dir);
-    fs::create_dir(new_path)?;
 
     Ok(())
 }
