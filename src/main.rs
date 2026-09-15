@@ -1,5 +1,11 @@
 use std::{env, fs};
 
+#[warn(unused)]
+enum CInitializerError {
+    InvalidArguments,
+    Io(std::io::Error),
+}
+
 fn main() -> std::io::Result<()> {
     let args: Vec<_> = env::args().collect();
 
@@ -28,7 +34,16 @@ fn main() -> std::io::Result<()> {
 
     // TODO: create the directories and the src, build and include directories
 
-    fs::create_dir(final_path)?;
+    fs::create_dir(&final_path)?;
+
+    let mut src_path = String::new();
+    src_path.push_str(&final_path);
+    src_path.push_str("/src");
+    fs::create_dir(src_path)?;
+
+    // for dir in directories {
+    //     fs::create_dir(final_path);
+    // }
 
     Ok(())
 }
